@@ -31,7 +31,7 @@ switch(choix){
         achetezticket();
         break;
     case "3" :
-        console.log("Afficher les tickets: ");
+        affichertickets();
         break;
     case "4" :
         console.log("Annuler un ticket: ");
@@ -46,7 +46,7 @@ switch(choix){
         console.log("Trier les trajets: ")
         break;
     case "0" :
-        console.log("Quitter: ");
+        console.log("Tu avais quittez! Bon journée! ");
         break;
     default:
         console.log("Choix invalide")
@@ -279,4 +279,25 @@ function achetezticket(){
     console.log("Destination: ", trajet.destination);
     console.log("Place: ", ticket.seatNumber);
     console.log("Prix: ", ticket.price);
+}
+function affichertickets(){
+    console.log("================= TICKETS ===================");
+
+    if(tickets.length === 0){
+        console.log("Aucun tickets enregistré.");
+        return;
+    }
+
+    tickets.forEach(ticket => {
+        let trajet = trips.find(trip => trip.id === ticket.tripId);
+
+        console.log("------------------------------");
+        console.log("| TICKET: " + ticket.id);
+        console.log("| passager: ", ticket.passengerName);
+        console.log("| Le depart: ", trajet.departure);
+        console.log("| Vers: ", trajet.destination);
+        console.log("| Place: ", ticket.seatNumber);
+        console.log("| Prix: ", ticket.price + "DH");
+        console.log("------------------------------");
+    });
 }
