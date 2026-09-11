@@ -37,7 +37,7 @@ switch(choix){
         annulerTicket();
         break;
     case "5" :
-        console.log("Rechercher un ticket: ");
+        rechercherTicket();
         break;
     case "6" :
         console.log("Filtrer les trajets: ")
@@ -354,4 +354,33 @@ function annulerTicket(){
     console.log("Ticket annulé avec succès."); 
     console.log("La place " + ticket.seatNumber + " est maintenant disponible."); 
     console.log("----------------------------------------------------------") 
+}
+function rechercherTicket(){
+    
+    let nom = prompt("Nom du passager : ");
+
+    let resultats = tickets.filter(ticket => 
+        ticket.passengerName.toLowerCase() === nom.toLowerCase()
+    );
+
+    if(resultats.length === 0){
+        console.log("========================================================")
+        console.log("Aucun ticket trouvé pour ce passager.");
+        console.log("========================================================")
+        return;
+    }
+
+    resultats.forEach(ticket => {
+
+        let trajet = trips.find(trip => trip.id === ticket.tripId);
+
+        console.log("---------------------------------------------------------");
+        console.log("Ticket: " + ticket.id);
+        console.log("Passager: " + ticket.passengerName);
+        console.log("Trajet: " + trajet.departure + " → " + trajet.destination);
+        console.log("Place: " + ticket.seatNumber);
+        console.log("Prix: " + ticket.price + " DH");
+        console.log("--------------------------------------------------------");
+
+    });
 }
