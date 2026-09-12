@@ -40,7 +40,7 @@ switch(choix){
         rechercherTicket();
         break;
     case "6" :
-        console.log("Filtrer les trajets: ")
+        filtrertrajets();
         break;
     case "7" :
         console.log("Trier les trajets: ")
@@ -257,24 +257,28 @@ menu();
 function achetezticket(){
     let nomcomplet=prompt("Entrez votre nom complet: ");
     let idtrejet=Number(prompt("Entrez le ID du trajet: "));
-    let trajet = trips.find(trip => trip.id === idtrejet);
+    let trajet = trips.find(function(trip){  
+        return trip.id === idtrejet;
+    })
+
     if(!trajet){
-        console.log("====================================================")
-        console.log("Trajet introuvable. Essaye un autre.")
-                console.log("====================================================")
+    console.log("====================================================")
+    console.log("Trajet introuvable. Essaye un autre.")
+    console.log("====================================================")
 
         return;
     }
     if(trajet.availableSeats<=0){
-               console.log("====================================================")
-
-        console.log("Malheuresement, le train est complet.")
-                console.log("====================================================")
+    console.log("====================================================")
+    console.log("Malheuresement, le train est complet.")
+    console.log("====================================================")
 
         return;
     }
    let placesOccupees = tickets
-    .filter(ticket => ticket.tripId === trajet.id)
+    .filter(function(ticket){  
+        return ticket.tripId === trajet.id;
+    })
     .map(ticket => ticket.seatNumber);
 
 let numeroPlace = 1;
@@ -293,8 +297,7 @@ let ticket={
     }
     trajet.availableSeats--;
     tickets.push(ticket);
-            console.log("====================================================")
-
+    console.log("====================================================")
     console.log("Ticket acheté avec succès.");
     console.log("Ticket: " + ticket.id);
     console.log("Passager: ", ticket.passengerName);
@@ -302,22 +305,22 @@ let ticket={
     console.log("Destination: ", trajet.destination);
     console.log("Place: ", ticket.seatNumber);
     console.log("Prix: ", ticket.price);
-            console.log("====================================================")
+    console.log("====================================================")
 }
 function affichertickets(){
-    console.log("================= TICKETS ===================");
+    console.log("=================== =TICKETS ======================");
 
     if(tickets.length === 0){
-               console.log("====================================================")
-
-        console.log("Aucun tickets enregistré.");
-                console.log("====================================================")
-
+    console.log("====================================================")
+    console.log("Aucun tickets enregistré.");
+    console.log("====================================================")
         return;
     }
 
-    tickets.forEach(ticket => {
-        let trajet = trips.find(trip => trip.id === ticket.tripId);
+    tickets.forEach(ticket => {  
+        let trajet = trips.find(function(trip){ 
+            return trip.id === ticket.tripId;
+        });
 
         console.log("------------------------------------------------");
         console.log("| TICKET: " + ticket.id);
@@ -332,18 +335,21 @@ function affichertickets(){
 function annulerTicket(){ 
     let idticket = Number(prompt("Identifiant du ticket : ")); 
  
-    let ticket = tickets.find(ticket => ticket.id === idticket); 
+    let ticket = tickets.find(function(ticket){
+        return ticket.id === idticket;
+    }); 
  
     if(!ticket){ 
-                console.log("====================================================")
+        console.log("====================================================")
 
         console.log("Ticket introuvable."); 
-                console.log("====================================================")
+        console.log("====================================================")
 
         return; 
     } 
  
-    let trajet = trips.find(trip => trip.id === ticket.tripId); 
+    let trajet = trips.find(trip => trip.id === ticket.tripId);   // =(function(trip{
+    // return treip.id === ticket.tripId}))
  
     let index = tickets.indexOf(ticket); 
     tickets.splice(index, 1); 
@@ -359,9 +365,9 @@ function rechercherTicket(){
     
     let nom = prompt("Nom du passager : ");
 
-    let resultats = tickets.filter(ticket => 
-        ticket.passengerName.toLowerCase() === nom.toLowerCase()
-    );
+    let resultats = tickets.filter(function(ticket){ 
+        return ticket.passengerName.toLowerCase() === nom.toLowerCase();
+});
 
     if(resultats.length === 0){
         console.log("========================================================")
@@ -370,9 +376,10 @@ function rechercherTicket(){
         return;
     }
 
-    resultats.forEach(ticket => {
-
-        let trajet = trips.find(trip => trip.id === ticket.tripId);
+    resultats.forEach(function(ticket)  {
+        let trajet = trips.find(function(trip){
+        return trip.id === ticket.tripId;
+        });
 
         console.log("---------------------------------------------------------");
         console.log("Ticket: " + ticket.id);
@@ -383,4 +390,29 @@ function rechercherTicket(){
         console.log("--------------------------------------------------------");
 
     });
+}
+function filtrertrajets(){
+    
+    
+    
+    let ville = prompt("Ville de départ : ");
+
+    let resultat = trips.filter(function(trip){
+        return trip.departure === ville;
+    });
+
+    if(resultat.length === 0){
+        console.log("=========================================================")
+        console.log("Aucun trajet trouvé.");
+        console.log("=========================================================")
+        return;
+    }
+
+    console.log("============================================================");
+
+    resultat.forEach(trip => {  //resultat.forEach(function(trip)
+        console.log(trip.departure + " → " + trip.destination + " : " + trip.price + " DH");
+    });
+
+    console.log("============================================================");
 }
