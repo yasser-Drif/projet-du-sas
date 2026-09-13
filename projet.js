@@ -43,7 +43,7 @@ switch(choix){
         filtrertrajets();
         break;
     case "7" :
-        console.log("Trier les trajets: ")
+        trierTrajets();
         break;
     case "0" :
         console.log("Tu avais quittez! Bon journée! ");
@@ -251,7 +251,79 @@ function affichertrajet() {
     }
 }
 const tickets = [];
-let nextTicketId = 1; 
+tickets.push(
+    {
+        id: 1,
+        passengerName: "Yasser",
+        tripId: 1,
+        seatNumber: 1,
+        price: 25
+    },
+    {
+        id: 2,
+        passengerName: "Ahmed",
+        tripId: 1,
+        seatNumber: 2,
+        price: 25
+    },
+    {
+        id: 3,
+        passengerName: "Mohammed",
+        tripId: 2,
+        seatNumber: 1,
+        price: 90
+    },
+    {
+        id: 4,
+        passengerName: "Hamid",
+        tripId: 2,
+        seatNumber: 2,
+        price: 90
+    },
+    {
+        id: 5,
+        passengerName: "Walid",
+        tripId: 2,
+        seatNumber: 3,
+        price: 90
+    },
+    {
+        id: 6,
+        passengerName: "Zlatan",
+        tripId: 3,
+        seatNumber: 1,
+        price: 140
+    },
+    {
+        id: 7,
+        passengerName: "Soufian",
+        tripId: 3,
+        seatNumber: 2,
+        price: 140
+    },
+    {
+        id: 8,
+        passengerName: "Benzima",
+        tripId: 4,
+        seatNumber: 1,
+        price: 65
+    },
+    {
+        id: 9,
+        passengerName: "Modric",
+        tripId: 4,
+        seatNumber: 2,
+        price: 65
+    },
+    {
+        id: 10,
+        passengerName: "Bale",
+        tripId: 5,
+        seatNumber: 1,
+        price: 110
+    }
+);
+let nextTicketId = 11; 
 menu();
 
 function achetezticket(){
@@ -398,7 +470,7 @@ function filtrertrajets(){
     let ville = prompt("Ville de départ : ");
 
     let resultat = trips.filter(function(trip){
-        return trip.departure === ville;
+        return trip.departure.toLowerCase() === ville;
     });
 
     if(resultat.length === 0){
@@ -416,3 +488,22 @@ function filtrertrajets(){
 
     console.log("============================================================");
 }
+function trierTrajets() {
+
+    trips.sort(function(a, b) {
+        return a.price - b.price;
+    });
+
+    console.log("========== TRAJETS TRIÉS PAR PRIX ==========");
+
+    trips.forEach(function(trip) {
+        console.log(
+            trip.departure + " → " +
+            trip.destination + " : " +
+            trip.price + " DH"
+        );
+    });
+
+    console.log("============================================");
+}
+
